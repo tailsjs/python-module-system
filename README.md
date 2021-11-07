@@ -10,10 +10,10 @@ Also, modules must be in folder "modules" and have their folders (./modules/test
 * info.json
 ```json
 {
-    "name": "Test!",
-    "main": "test",
-    "author": "tailsjs",
-    "desc": "Test module."
+    "name": "Test!", // Module name
+    "main": "test", // Module file (without .py)
+    "author": "tailsjs", // Module author
+    "desc": "Test module." // Module description
 }
 ```
 * test.py
