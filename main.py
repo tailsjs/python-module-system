@@ -2,6 +2,7 @@ import os
 import json 
 import importlib
 import sys
+import inspect
 
 def clear():
     if "debug" not in sys.argv:
@@ -24,7 +25,7 @@ for i in modules:
             module = json.loads(file.read())
             module["dir"] = i
             init_modules.append(module)
-            string_modules += f'{len(init_modules)}. {module["name"]} — {module["desc"]} (./modules/{i}/{module["main"]}) [author: {module["author"]}]\n'
+            string_modules += f'{len(init_modules)}. {module["name"]} — {module["desc"]} (./modules/{i}/{module["mainFile"]}.py) [author: {module["author"]}]\n'
             file.close()
             print(f"./modules/{i} successfully init!")
         else:
@@ -49,8 +50,17 @@ def start(somewords=""):
     if type(int(choose)) is not int or int(choose) < 1 or int(choose) > len(init_modules):
         start("incorrect choice!")
     choosed = init_modules[int(choose)-1]
-    module = importlib.import_module("modules." + choosed["dir"] + "." + choosed["main"])
+    module = importlib.import_module("modules." + choosed["dir"] + "." + choosed["mainFile"])
     clear()
-    r = module.Import.init()
-    start("Module resp: " + str(r))
+    insp_module = inspect.getmembers(module)
+    usedClass = [item for item in insp_module if item[0] == choosed["mainClass"]]
+    if usedClass == []:
+        return start("module error! class not found!")
+    else:
+        usedClass = usedClass[0]
+    response = getattr(insp_module[insp_module.index(usedClass)][1], choosed["mainFunction"])()
+    if response != None:
+        start("module resp: " + str(response))
+    else:
+        start()
 start()

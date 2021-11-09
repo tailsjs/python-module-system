@@ -1,6 +1,8 @@
 {
     "name": "hello",
-    "main": "hello",
+    "mainFile": "hello",
+    "mainClass": "Import",
+    "mainFunction": "init",
     "author": "tailsjs",
     "desc": "hello name"
 }
